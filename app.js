@@ -3,39 +3,56 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const keys = require('./SecretKeys/keys');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+var whitelist = ['http://localhost:3000', 'https://young-falls-06057.herokuapp.com/', undefined]
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(()=>{
+        console.log(origin)
+        return new Error('Not allowed by CORS:'+origin)
+      })
+    }
+  }
+}
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// Then pass them to cors:
+app.use(cors(corsOptions));
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(cookieSession({
+  maxAge:30*24*60*60*1000,
+  keys:[keys.cookieKey]
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use('/api', indexRouter);
+
+if(process.env.NODE_ENV=='production'){
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
+  app.use(express.static('client/build'));
+  const path = require('path')
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname, 'client', 'build','index.html'))
+  })
+}
 module.exports = app;

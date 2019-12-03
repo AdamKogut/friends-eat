@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from './Redux/Actions';
+import {Container, Row, Col, Modal,ModalHeader, ModalBody} from 'reactstrap';
+import {appEntireArea, sidebarArea} from './AppStyle.js';
+import Sidebar from './Components/Sidebar';
+import TopBar from './Components/TopBar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+  componentDidMount(){
+    this.props.fetchUser();
+    this.props.fetchFeedback();
+  }
+
+  render(){
+    console.log(this.props)
+    return (
+      <BrowserRouter>
+        <Container style={appEntireArea}>
+          <Row>
+            <Col xs={0} sm={3} style={sidebarArea}>
+              <Sidebar />
+            </Col>
+            <Col sm={9} xs={12}>
+              <TopBar />
+            </Col>
+          </Row>
+          {this.props.modal==null?null:
+            <Modal isOpen={this.props.modal.isOpen} toggle={()=>this.props.openModal(false,'none')}>
+              <ModalHeader toggle={()=>this.props.openModal(false,'none')}>{this.props.modal.title}</ModalHeader>
+              <ModalBody>{this.props.modal.body}</ModalBody>
+            </Modal>
+          }
+        </Container>
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps({modal}){
+  return {modal};
+}
+
+export default connect(mapStateToProps,actions)(App);
