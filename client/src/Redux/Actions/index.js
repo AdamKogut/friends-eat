@@ -88,6 +88,7 @@ export const submitPreferences=(obj)=>async dispatch=>{
   tempObj.location=obj.location;
   tempObj.diet=obj.diet;
   tempObj.nickName=obj.name;
+  tempObj.paymentSystems=obj.payment;
   axios.post('/api/preferences',tempObj).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
@@ -130,5 +131,31 @@ export const deleteAccount=()=>async dispatch=>{
 const exportDeleteAccount=()=>{
   axios.delete('/api/preferences').then(response=>{
     window.location.href='/api/auth/logout';
+  })
+}
+
+export const joinGroup=(group)=> async dispatch=> {
+  axios.post('/api/groups/join',{groupName:group}).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title='Request to join';
+      tempModalInfo.body=(
+        <div>
+          <p>Succesfully requested to join</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title='Request to join';
+      tempModalInfo.body=(
+        <div>
+          <p>Failed to request to join</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
   })
 }

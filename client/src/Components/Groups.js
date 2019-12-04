@@ -103,6 +103,11 @@ class Groups extends Component {
     let tempGroup=[];
     for(let i in source){
       let currGroup = source[i];
+      if(Object.keys(currGroup.Users).includes(this.props.auth.id)||
+        (currGroup.WaitingUsers!=null && Object.keys(currGroup.WaitingUsers).includes(this.props.auth.id))||
+        (currGroup.RejectedUsers!=null && Object.keys(currGroup.RejectedUsers).includes(this.props.auth.id))){
+        continue;
+      }
       let tempRestrictions='';
       for(let j in currGroup.Restrictions){
         tempRestrictions+=currGroup.Restrictions[j]+', ';
@@ -120,7 +125,7 @@ class Groups extends Component {
               <br/>
               {`Location: ${currGroup.Location}`}
             </div>
-            <Button style={requestJoinButton}>Request to Join</Button>
+            <Button style={requestJoinButton} onClick={()=>this.props.joinGroup(i).then(this.props.getGroups)}>Request to Join</Button>
           </CardBody>
         </Card>
       )

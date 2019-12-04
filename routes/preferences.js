@@ -38,6 +38,8 @@ router.post('/',(req,res)=>{
       }
       if(req.body.location!=null)
         tempUser.Location=req.body.location;
+      if(req.body.paymentSystems!=null)
+        tempUser.PaymentSystems=req.body.paymentSystems;
       userRef.set(tempUser);
       res.send({success:true})
     } else {

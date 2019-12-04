@@ -22,7 +22,8 @@ class Preferences extends Component{
       name:'',
       location:[],
       diet:{},
-      dietOptions:tempDiets
+      dietOptions:tempDiets,
+      payment:{}
     }
   }
 
@@ -39,7 +40,8 @@ class Preferences extends Component{
       diet:this.props.preferences.diet,
       name:this.props.preferences.name.nickName,
       location:this.props.preferences.location,
-      prevProps:this.props.preferences
+      prevProps:this.props.preferences,
+      payment:this.props.preferences.paymentSystems,
     })
   }
 
@@ -94,6 +96,24 @@ class Preferences extends Component{
                 value={this.state.location}
                 onChange={(ch)=>this.setState({location:ch})}
                 suggestions={cities}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for='venmo' style={labelStyle}>Venmo Name</Label>
+              <Input
+                type='text' 
+                id='venmo' 
+                defaultValue={(this.state.payment!=null&&this.state.payment.venmo!=null)?this.state.payment.venmo:''}
+                onChange={({target:{name,value}})=>this.setState({payment:{...this.state.payment,venmo:value}})}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for='paypal' style={labelStyle}>Paypal Name</Label>
+              <Input
+                type='text' 
+                id='paypal' 
+                defaultValue={(this.state.payment!=null&&this.state.payment.paypal!=null)?this.state.payment.paypal:''}
+                onChange={({target:{name,value}})=>this.setState({payment:{...this.state.payment,paypal:value}})}
               />
             </FormGroup>
             <Button onClick={this.onSubmit} style={saveButtonStyle}>Save Preferences</Button>
