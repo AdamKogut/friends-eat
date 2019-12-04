@@ -4,7 +4,7 @@ import * as actions from '../Redux/Actions';
 import {mainContainer, fixRow, availableTitle, createGroupButton, filterTitle, groupRow, requestJoinButton, cardBodyPosition, cardStyle} from './CSS/GroupsStyle';
 import {Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText, Row, Col, Input} from 'reactstrap';
 import Chips from 'react-chips';
-import {allergies, diets} from './Resources/Filters';
+import {allergies, diets, cities} from './Resources/Filters';
 import Select from 'react-select';
 
 class Groups extends Component {
@@ -13,7 +13,7 @@ class Groups extends Component {
     props.getGroups();
 
     let tempDiets=[];
-    tempDiets.push({value:'select', label:'Select Diet'})
+    tempDiets.push({value:'select', label:'No Diet'})
     for(let i in diets){
       tempDiets.push({value:diets[i],label:diets[i]})
     }
@@ -22,30 +22,52 @@ class Groups extends Component {
       filteredGroups:[],
       filter:{
         chips:[],
-        diet:''
+        diet:{},
+        location:[]
       },
       dietOptions:tempDiets
     }
   }
 
   componentDidMount=()=>{
-    if(this.props.groups==null){
+    if(this.props.groups==null||this.props.preferences==null){
       return;
     }
-    this.setState({allGroups:this.props.groups});
-    this.filterGroups(this.props.groups,'');
+    let tempFilter={
+      chips:[],
+      diet:{},
+      location:[]
+    };
+    if(this.props.preferences.diet!=null){
+      tempFilter.diet=this.props.preferences.diet;
+    }
+    if(this.props.preferences.restrictions!=null){
+      tempFilter.chips=this.props.preferences.restrictions;
+    }
+    if(this.props.preferences.location!=null){
+      tempFilter.location=this.props.preferences.location;
+    }
+    this.setState({allGroups:this.props.groups, filter:tempFilter});
+    this.filterGroups(this.props.groups,tempFilter);
   }
 
   changeChips=(ch)=>{
-    this.setState({filter:{chips:ch, diet:this.state.filter.diet}},()=>this.filterGroups(this.state.allGroups, this.state.filter));
+    this.setState({filter:{chips:ch, diet:this.state.filter.diet, location:this.state.filter.location}},
+      ()=>this.filterGroups(this.state.allGroups, this.state.filter));
   }
 
   changeDiet=(a)=>{
-    this.setState({filter:{chips:this.state.filter.chips,diet:a}},()=>this.filterGroups(this.state.allGroups,this.state.filter));
+    this.setState({filter:{chips:this.state.filter.chips,diet:a, location:this.state.filter.location}},
+      ()=>this.filterGroups(this.state.allGroups,this.state.filter));
+  }
+
+  changeLocation=(ch)=>{
+    this.setState({filter:{chips:this.state.filter.chips, diet:this.state.filter.diet, location:ch}},
+      ()=>this.filterGroups(this.state.allGroups,this.state.filter));
   }
 
   filterGroups=(source, filter)=>{
-    if(filter!=''){
+    if(filter!={chips:[],diet:{},location:[]}){
       let tempSource={};
       for(let i in source){
         let curr=source[i];
@@ -61,15 +83,23 @@ class Groups extends Component {
           continue;
         }
         //filter on diet
-        if(filter.diet.value!='select'){
+        if(filter.diet.value!='select'&&filter.diet.value!=null){
           if(!curr.Restrictions.includes(filter.diet.value)){
             continue;
           }
+        }
+        //filter on location
+        if(filter.location.length>0&&!filter.location.includes(curr.Location)){
+          continue;
         }
         tempSource[i]=curr;
       }
       source=tempSource;
     }
+    this.convertToJSX(source)
+  }
+
+  convertToJSX=(source)=>{
     let tempGroup=[];
     for(let i in source){
       let currGroup = source[i];
@@ -87,8 +117,21 @@ class Groups extends Component {
               {`Available Spots: ${currGroup.MaxUsers-Object.keys(currGroup.Users).length}`}
               <br/>
               {`Restrictions: ${tempRestrictions.length==0?'none':tempRestrictions.substr(0,tempRestrictions.length-2)}`}
+              <br/>
+              {`Location: ${currGroup.Location}`}
             </div>
             <Button style={requestJoinButton}>Request to Join</Button>
+          </CardBody>
+        </Card>
+      )
+    }
+    if(tempGroup.length==0){
+      tempGroup.push(
+        <Card key={0} style={cardStyle}>
+          <CardBody>
+            <div style={cardBodyPosition}>
+              No Groups Found: Please change the filters to find groups
+            </div>
           </CardBody>
         </Card>
       )
@@ -120,7 +163,18 @@ class Groups extends Component {
             />
             <br />
             <h6 style={filterTitle}>Diet</h6>
-            <Select value={this.state.filter.diet} onChange={this.changeDiet} options={this.state.dietOptions}/>
+            <Select 
+              value={this.state.filter.diet} 
+              onChange={this.changeDiet} 
+              options={this.state.dietOptions}
+              placeholder='No Diet'/>
+            <br />
+            <h6 style={filterTitle}>Location</h6>
+            <Chips
+              value={this.state.filter.location}
+              onChange={this.changeLocation}
+              suggestions={cities}
+            />
           </Col>
         </Row>
       </div>
@@ -130,8 +184,8 @@ class Groups extends Component {
 
 }
 
-function mapStateToProps({auth,groups}){
-  return {auth,groups};
+function mapStateToProps({auth,groups, preferences}){
+  return {auth,groups, preferences};
 }
 
 export default connect(mapStateToProps, actions)(Groups);

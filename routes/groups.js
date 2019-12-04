@@ -14,7 +14,6 @@ router.get('/',(req,res)=>{
           tempReturn[i]=snapshot.val()[i];
         }
       }
-      console.log(tempReturn)
       res.send(tempReturn)
     } else {
       res.send({success:false})

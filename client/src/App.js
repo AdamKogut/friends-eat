@@ -9,6 +9,7 @@ import Sidebar from './Components/Sidebar';
 import TopBar from './Components/TopBar';
 import Home from './Components/Home';
 import Groups from './Components/Groups';
+import Preferences from './Components/Preferences';
 
 class App extends Component{
   constructor(props){
@@ -21,6 +22,7 @@ class App extends Component{
     this.props.fetchFeedback();
     this.props.applyHistory();
     this.props.getReports();
+    this.props.getPreferences();
   }
 
   render(){
@@ -38,6 +40,7 @@ class App extends Component{
                 <Switch>
                   <Route exact path='/' render={()=><Home />}/>
                   <Route path='/groups' render={()=><Groups />}/>
+                  <Route path='/preferences' render={()=><Preferences />}/>
                 </Switch>
               </Row>
             </Col>

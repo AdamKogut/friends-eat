@@ -1,8 +1,9 @@
 import React from 'react'
 import axios from 'axios';
-import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS } from './Types';
+import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES } from './Types';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import History from '../../History';
+import { deleteAccountStyle } from '../../Components/CSS/PreferencesStyle';
 
 export const fetchUser = () => async dispatch => {
   axios.get('/api/auth/current_user',{withCredentials: true}).then((response)=>{
@@ -72,5 +73,62 @@ export const getGroups=()=> async dispatch=>{
       return;
     }
     dispatch({type:GET_GROUPS, payload:response.data})
+  })
+}
+
+export const getPreferences=()=>async dispatch=>{
+  axios.get('/api/preferences').then(response=>{
+    dispatch({type:GET_PREFERENCES, payload:response.data});
+  })
+}
+
+export const submitPreferences=(obj)=>async dispatch=>{
+  let tempObj={}
+  tempObj.restrictions=obj.allergy;
+  tempObj.location=obj.location;
+  tempObj.diet=obj.diet;
+  tempObj.nickName=obj.name;
+  axios.post('/api/preferences',tempObj).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title='Save Preferences';
+      tempModalInfo.body=(
+        <div>
+          <p>Account Preferences have been succesfully saved</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title='Save Preferences';
+      tempModalInfo.body=(
+        <div>
+          <p>Account Preferences were not saved</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+    
+  })
+}
+
+export const deleteAccount=()=>async dispatch=>{
+  let tempModalInfo={};
+  tempModalInfo.title='Delete Account';
+  tempModalInfo.body=(
+    <div>
+      <p>Are you sure you want to delete your account?</p>
+      <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>No</Button>
+      <Button style={deleteAccountStyle} onClick={exportDeleteAccount} >Yes</Button>
+    </div>
+  )
+  dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+}
+
+const exportDeleteAccount=()=>{
+  axios.delete('/api/preferences').then(response=>{
+    window.location.href='/api/auth/logout';
   })
 }
