@@ -4,7 +4,9 @@ export const sidebarArea = {
   margin:'0px',
   backgroundColor: colors.sidebarColor,
   height: '100vh',
-  paddingRight:'0'
+  paddingRight:'0',
+  overflowY:'auto',
+  zIndex:'80'
 }
 
 export const logoCss = {

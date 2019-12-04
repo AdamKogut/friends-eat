@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../Redux/Actions';
 import {Row, Card,CardTitle,CardBody,CardSubtitle,CardText, Button} from 'reactstrap';
-import { feedbackTitle, feedbackTitleText, feedbackArea, cardStyle, addFeedbackStyle,feedbackContentArea, containingDivArea } from './CSS/FeedbackStyle';
+import { feedbackTitle, feedbackTitleText, feedbackArea, cardStyle, addFeedbackStyle, feedbackContentArea, containingDivArea } from './CSS/FeedbackStyle';
 
 class Feedback extends Component{
   constructor(props){
@@ -11,6 +11,13 @@ class Feedback extends Component{
       prevProps:{},
       feedbackList:[],
     }
+  }
+
+  isAuthed=()=>{
+    if(this.props.auth!=null && this.props.auth.id!=false && this.props.auth.id!=null){
+      return true;
+    }
+    return false;
   }
 
   componentDidMount=()=>{
@@ -29,7 +36,7 @@ class Feedback extends Component{
         </Card>
       )
     }
-    if(this.props.auth!=false && this.props.auth!=null){
+    if(this.isAuthed()){
       tempList.push(
         <Card style={addFeedbackStyle} key='add'>
           <CardBody>

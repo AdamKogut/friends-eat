@@ -27,7 +27,8 @@ passport.use(
         userRef.set({
           Email:profile._json.email,
           Privledges:'User',
-          Name:profile.name
+          Name:profile.name,
+          
         },()=>{
           done(null,"G"+profile.id);
         })
@@ -54,6 +55,21 @@ router.get('/logout',(req,res)=>{
 router.get('/current_user',(req,res)=>{
   res.setHeader('Access-Control-Allow-Credentials','true');
   res.send(req.user);
+})
+
+router.get('/reports',(req,res)=>{
+  let userRef= firebaseApp.database().ref(`/Users/${req.user}`);
+  userRef.once('value',(snapshot)=>{
+    if(snapshot.val()!=null){
+      if(snapshot.val().Reports!=null){
+        res.send({nums:Object.keys(snapshot.val().Reports).length})
+      } else {
+        res.send({nums:0})
+      }
+    } else {
+      res.send({failed:true})
+    }
+  })
 })
 
 module.exports=router;

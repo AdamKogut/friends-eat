@@ -5,17 +5,11 @@ import * as actions from '../Redux/Actions';
 import {Row, Col} from 'reactstrap';
 import logo from './Resources/Friends_eat_logo.gif';
 import Feedback from './Feedback';
+import Navigation from './Navigation';
 
 class Sidebar extends Component{
   constructor(props){
     super(props);
-  }
-
-  chooseIfFeedback=()=>{
-    if(window.location.pathname==='/') {
-      return true;
-    }
-    return false;
   }
 
   render(){
@@ -25,8 +19,13 @@ class Sidebar extends Component{
           <Col></Col>
           <Col><img src={logo} style={logoCss}/></Col>
         </Row>
+        {(this.props.auth!=null && this.props.auth.id!=null && this.props.auth.id!=false)?
+          <Row style={contentArea}>
+            <Navigation />
+          </Row>
+        :null}
         <Row style={contentArea}>
-          {this.chooseIfFeedback()?<Feedback />:null}
+          <Feedback />
         </Row>
       </div>
     )

@@ -14,14 +14,16 @@ export const feedbackTitleText = {
   margin:'auto'
 }
 
-export const feedbackArea = {
+export const feedbackArea={
   backgroundColor: colors.backgroundColorLight,
-  height:'75vh',
-  margin:'0',
   overflowY:'auto',
   overflowX:'hidden',
+  minHeight:'75vh',
   margin:'0',
   marginTop:'1vh',
+  marginLeft:'35px',
+  marginLeft:'35px',
+  marginRight: '20px'
 }
 
 export const cardStyle = {
@@ -40,12 +42,8 @@ export const addFeedbackStyle = {
 }
 
 export const feedbackContentArea = {
-  overflowY:'auto',
-  overflowX:'hidden',
-  maxHeight:'74vh',
   boxSizing:'border-box',
-  width:'100%',
-  marginLeft:'10px'
+  width:'100%'
 }
 
 export const containingDivArea = {
