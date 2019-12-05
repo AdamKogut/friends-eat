@@ -5,7 +5,7 @@ import {Row, Carousel, CarouselControl, CarouselIndicators, CarouselItem} from '
 import {homeAboveBar, imageStyle, makeFriendsText, eatFoodText, missionTitle, missionBody, mainContainer} from './CSS/HomeStyle';
 import image1 from './Resources/002-portland-food-photographer-11(pp_w768_h512).jpg';
 import image2 from './Resources/Food-photographer-London-Mixed-Indian-starter.jpg';
-import image3 from './Resources/PbPost_ChristmasCookie2016_WhiteChocolate-2.jpg';
+import image3 from './Resources/PbPost_ChristmasCookie2016_WhiteChocolate-2.png';
 
 class Home extends Component{
   constructor(props){
@@ -87,15 +87,12 @@ class Home extends Component{
           Our Mission
         </div>
         <div style={missionBody}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sagittis lectus nisi, sit amet ultricies neque aliquam nec. Sed quis orci sed ex suscipit semper sed eget velit. Vivamus commodo elit at tincidunt posuere. Mauris quis augue id erat tincidunt maximus a sed ex. Aenean non placerat elit, eu euismod ex. Nullam eu cursus turpis. Sed euismod nunc libero, gravida semper dui hendrerit eu. Proin lobortis fermentum dui, at laoreet ipsum tempor a. Fusce purus nulla, finibus in bibendum sollicitudin, laoreet pellentesque lorem. Donec sit amet lorem vitae nulla iaculis venenatis sed eget tortor.
-
-Vestibulum maximus lacus lacus, et interdum augue vulputate vitae. Curabitur consectetur neque id ex elementum sagittis. Nullam quis orci at nisl tincidunt aliquet. Duis rutrum massa mattis, gravida tellus a, porttitor libero. Nam vel dignissim dolor, in volutpat turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed mollis orci orci, a placerat neque porttitor quis. Suspendisse non posuere mauris. Donec ac lectus nisi. Curabitur bibendum luctus libero quis maximus. Duis bibendum magna vel purus condimentum dictum. Nam a hendrerit orci.
-
-Mauris orci justo, faucibus ac rutrum eget, dapibus at enim. Nulla hendrerit pharetra porta. Nunc efficitur diam ante, quis aliquam ex venenatis sed. Proin consectetur, est sit amet pellentesque efficitur, felis nisl porttitor sapien, vestibulum volutpat erat erat ut magna. Phasellus luctus vitae sapien ut auctor. Donec vel orci hendrerit, aliquam ligula nec, vestibulum tortor. Vivamus semper neque et tortor pulvinar, ut lobortis odio facilisis. Curabitur semper egestas lacus, sed porttitor augue ornare sit amet. In non gravida odio, id semper nisl. Aliquam ullamcorper urna ut nunc consequat faucibus. Integer posuere, ligula a fermentum varius, turpis arcu tristique lacus, id convallis lacus eros non lacus. Nunc nec porttitor magna.
-
-Suspendisse in lacinia lectus. Sed consequat purus vitae arcu efficitur volutpat. Cras in dolor in lorem viverra vestibulum euismod quis nibh. Donec non neque diam. Sed nec volutpat mi, sed egestas justo. Mauris urna orci, varius ac lectus vel, elementum accumsan odio. Ut faucibus lacus non dolor euismod posuere.
-
-Sed feugiat faucibus lectus, ac varius turpis scelerisque vel. Phasellus sodales ut urna id tincidunt. Suspendisse blandit ipsum quis volutpat egestas. Suspendisse molestie scelerisque ullamcorper. Aliquam lacinia neque a suscipit ornare. Maecenas ullamcorper commodo est ac lobortis. Aenean quam felis, egestas sed odio laoreet, semper blandit ex. Nam vel ex eget urna egestas egestas interdum eu felis. Vestibulum porttitor quam sit amet felis dignissim sollicitudin. Nulla egestas placerat lacus nec tempus. Pellentesque non porttitor nisi. Duis id pretium odio, quis euismod neque. Fusce porta scelerisque ante, ac maximus lacus malesuada eu. Ut quis augue id nibh aliquet rhoncus. Nam ullamcorper eget augue ornare mattis. Phasellus ullamcorper augue eu erat ullamcorper, sed pulvinar sapien fringilla.
+          <p>
+            In college and in early adulthood, dinner is a very lonely and solo affair... We are trying to change this. We believe that dinner is supposed to be a time for getting to know people and having a fun time with friends. We are Friends Eat. Our mission is to create a platform to promote face to face socialization along with helping you to save time preparing meals.
+          </p>
+          <p>
+            Our website is easy to use, once logged in, you will be able to browse all of the currently available and open meal groups. Signing up is as easy as connecting your gmail account. If you find a group you like then you can send a request to join the group. Once you have been accepted then you are able to pick a night to cook and let your group know what you will be preparing for the week. If none of the available groups are a right fit for you, you are welcome to create your own group! 
+          </p>
         </div>
         
       </div>
