@@ -4,6 +4,7 @@ import * as actions from '../Redux/Actions';
 import {Row, Card,CardTitle,CardBody,CardSubtitle,CardText, Button} from 'reactstrap';
 import { feedbackTitle, feedbackTitleText, feedbackArea, cardStyle, addFeedbackStyle, feedbackContentArea, containingDivArea } from './CSS/FeedbackStyle';
 
+
 class Feedback extends Component{
   constructor(props){
     super(props);
@@ -48,21 +49,22 @@ class Feedback extends Component{
     this.setState({prevProps:this.props, feedbackList:tempList});
   }
 
-  render(){
+    render(){
     if(this.props!=this.state.prevProps){
       this.componentDidMount();
     }
     
     return(
       <div style={containingDivArea}>
-        <Row style={feedbackTitle}>
-          <h2 style={feedbackTitleText}>Feedback</h2>
+        <Row style={feedbackTitle} >
+          <h2 style={feedbackTitleText} onClick={()=>this.feedbackEnd.scrollIntoView({behavior:'smooth'})}>Feedback</h2>
         </Row>
         <Row style={feedbackArea}>
           <div style={feedbackContentArea}>
             {this.state.feedbackList}
           </div>
         </Row>
+        <div ref={(el)=>this.feedbackEnd=el}></div>
       </div>
     )
   }

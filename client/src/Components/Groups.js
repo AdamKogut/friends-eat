@@ -105,7 +105,7 @@ class Groups extends Component {
       let currGroup = source[i];
       if(Object.keys(currGroup.Users).includes(this.props.auth.id)||
         (currGroup.WaitingUsers!=null && Object.keys(currGroup.WaitingUsers).includes(this.props.auth.id))||
-        (currGroup.RejectedUsers!=null && Object.keys(currGroup.RejectedUsers).includes(this.props.auth.id))||
+        (currGroup.RemovedUsers!=null && Object.keys(currGroup.RemovedUsers).includes(this.props.auth.id))||
         currGroup.Private){
         continue;
       }
@@ -193,7 +193,7 @@ class Groups extends Component {
 }
 
 function mapStateToProps({auth,groups, preferences}){
-  return {auth,groups, preferences};
+  return {auth,groups:groups.allGroups, preferences};
 }
 
 export default connect(mapStateToProps, actions)(Groups);

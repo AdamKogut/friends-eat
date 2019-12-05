@@ -27,8 +27,14 @@ passport.use(
         userRef.set({
           Email:profile._json.email,
           Privledges:'User',
-          Name:profile.name,
-          
+          Name:{
+            ...profile.name,
+            nickName:profile.name.givenName
+          },
+          PaymentSystems:{
+            Venmo:'',
+            Paypal:''
+          }
         },()=>{
           done(null,"G"+profile.id);
         })
@@ -67,9 +73,24 @@ router.get('/reports',(req,res)=>{
         res.send({nums:0})
       }
     } else {
-      res.send({failed:true})
+      res.send({success:false})
     }
   })
+})
+
+router.post('/reports',(req,res)=>{
+  let userRef= firebaseApp.database().ref(`/Users/${req.body.target}/Reports`);
+  userRef.once('value',(snapshot)=>{
+    if(snapshot.val()!=null){
+      if(!snapshot.val().includes(req.user)){
+        let temp=snapshot.val();
+        temp.push(req.user);
+        userRef.set(temp)
+      }
+    } else {
+      userRef.set([req.user])
+    }
+  }).catch(()=>res.send({success:false})).then(()=>res.send({success:true}))
 })
 
 module.exports=router;

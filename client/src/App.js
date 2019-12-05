@@ -10,6 +10,7 @@ import TopBar from './Components/TopBar';
 import Home from './Components/Home';
 import Groups from './Components/Groups';
 import Preferences from './Components/Preferences';
+import MyGroup from './Components/MyGroup';
 
 class App extends Component{
   constructor(props){
@@ -23,6 +24,7 @@ class App extends Component{
     this.props.applyHistory();
     this.props.getReports();
     this.props.getPreferences();
+    this.props.getMyGroup();
   }
 
   render(){
@@ -41,6 +43,7 @@ class App extends Component{
                   <Route exact path='/' render={()=><Home />}/>
                   <Route path='/groups' render={()=><Groups />}/>
                   <Route path='/preferences' render={()=><Preferences />}/>
+                  <Route path='/myGroup' render={()=><MyGroup />}/>
                 </Switch>
               </Row>
             </Col>

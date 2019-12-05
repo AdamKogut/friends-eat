@@ -8,10 +8,6 @@ import Feedback from './Feedback';
 import Navigation from './Navigation';
 
 class Sidebar extends Component{
-  constructor(props){
-    super(props);
-  }
-
   render(){
     return(
       <div style={sidebarArea}>
@@ -25,7 +21,7 @@ class Sidebar extends Component{
           </Row>
         :null}
         <Row style={contentArea}>
-          <Feedback />
+          <Feedback/>
         </Row>
       </div>
     )

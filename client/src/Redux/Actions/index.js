@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES } from './Types';
+import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES, GET_MY_GROUP } from './Types';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import History from '../../History';
 import { deleteAccountStyle } from '../../Components/CSS/PreferencesStyle';
@@ -201,6 +201,90 @@ export const createGroup=(info)=>async dispatch =>{
       tempModalInfo.body=(
         <div>
           <p>Failed to create group</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const getMyGroup=()=> async dispatch =>{
+  axios.get('/api/groups/mine').then(response=>{
+    dispatch({type:GET_MY_GROUP, payload:response.data});
+  })
+}
+
+export const changeUserLevel=(action, targetUid)=> async dispatch=>{
+  axios.post(`/api/groups/${action}`,{targetUid}).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`${action.substr(0,1).toUpperCase()}${action.substr(1,action.length)} User`;
+      tempModalInfo.body=(
+        <div>
+          <p>Success</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title=`${action.substr(0,1).toUpperCase()}${action.substr(1,action.length)} User`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const deleteGroup=()=>async dispatch=>{
+  axios.delete(`/api/groups/`,null).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`Delete Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>Success</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title=`Delete Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const reportPerson=(target)=>async dispatch=>{
+  axios.post('/api/auth/reports',{target}).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`Report Person`;
+      tempModalInfo.body=(
+        <div>
+          <p>Success</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title=`Report Person`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
           <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
         </div>
       )
