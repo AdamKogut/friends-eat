@@ -21,22 +21,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var whitelist = ['http://localhost:3000', 'https://friends-eat.herokuapp.com/', undefined]
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(()=>{
-        console.log(origin)
-        return new Error('Not allowed by CORS:'+origin)
-      })
-    }
-  }
-}
+// var whitelist = ['http://localhost:3000', 'https://friends-eat.herokuapp.com', undefined]
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(()=>{
+//         console.log(origin)
+//         return new Error('Not allowed by CORS:'+origin)
+//       })
+//     }
+//   }
+// }
 
-// Then pass them to cors:
-app.use(cors(corsOptions));
+// // Then pass them to cors:
+// app.use(cors(corsOptions));
 
 app.use(cookieSession({
   maxAge:30*24*60*60*1000,
