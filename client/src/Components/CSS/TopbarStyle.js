@@ -12,3 +12,9 @@ export const buttonStyle={
   width:'100px',
   backgroundColor:colors.backgroundColorLight
 }
+
+export const hamburgerStyle={
+  float:'left',
+  marginTop:'10px',
+  marginLeft:'10px'
+}

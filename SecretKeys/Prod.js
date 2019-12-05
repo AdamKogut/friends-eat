@@ -15,5 +15,6 @@ module.exports={
   googleClientID:process.env.GOOGLE_CLIENT_ID,
   googleClientSecret:process.env.GOOGLE_CLIENT_SECRET,
   firebaseApp:firebaseApp,
-  cookieKey: process.env.COOKIE_KEY
+  cookieKey: process.env.COOKIE_KEY,
+  emailjsKey:process.env.EMAILJS_KEY,
 }

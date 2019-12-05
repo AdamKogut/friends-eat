@@ -89,3 +89,13 @@ export const calendarStyle={
   width:'80%',
   margin:'0 auto'
 }
+
+export const labelStyle={
+  color:colors.backgroundColorLight,
+  fontSize:'22px'
+}
+
+export const inviteButtonStyle={
+  backgroundColor:colors.backgroundColorLight,
+  marginTop:'10px'
+}

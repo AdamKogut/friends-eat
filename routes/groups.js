@@ -151,4 +151,26 @@ router.delete('/',(req,res)=>{
   }).catch(()=>res.send({success:false})).then(()=>res.send({success:true}))
 })
 
+router.post('/join/invite',(req,res)=>{
+  let groupRef=firebaseApp.database().ref(`/Groups/${req.body.group}/Users/${req.body.user}`);
+  let userRef=firebaseApp.database().ref(`/Users/${req.body.user}`);
+  userRef.once('value', snapshot=>{
+    if(snapshot.val()!=null){
+      userRef.set({
+        ...snapshot.val(),
+        Group:req.body.group
+      })
+      groupRef.set({
+        Name:snapshot.val().Name,
+        PaymentSystems:snapshot.val().PaymentSystems,
+        Email:snapshot.val().Email,
+      }).then(()=>{
+        res.send({success:true})
+      })
+    } else {
+      res.send({success:false});
+    }
+  })
+})
+
 module.exports=router;

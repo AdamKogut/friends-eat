@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../Redux/Actions';
-import {Row, Col, Button, Card, CardBody, CardHeader} from 'reactstrap';
-import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton, calendarStyle } from './CSS/MyGroupStyle';
+import {Row, Col, Button, Card, CardBody, CardHeader, FormGroup, Input, FormText, Label} from 'reactstrap';
+import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton, calendarStyle, labelStyle, inviteButtonStyle } from './CSS/MyGroupStyle';
 import Calendar from 'react-calendar';
 import './CSS/CalendarStyle.css';
 
@@ -69,6 +69,30 @@ class MyGroup extends Component{
     this.props.history.push('/calendar');
   }
 
+  invitePeople=()=>{
+    if(this.props.group.Creator==this.props.auth.id){
+      let amtLeft=this.props.group.MaxUsers-Object.keys(this.props.group.Users).length;
+      let tempHintText='';
+      if(amtLeft==0){
+        tempHintText='Max amount of people in group, please remove a person to invite another';
+      }
+      let tempReturn=[];
+      tempReturn.push(<h1 key='0' style={groupTitle}>Invite People</h1>);
+      tempReturn.push(<hr key='1' style={horizontalLine} />);
+      tempReturn.push(
+        <FormGroup key='2' style={cardStyles}>
+          <Label style={labelStyle} for='email'>Invite by email</Label>
+          <Input type='email' onChange={(a)=>this.setState({email:a.target.value})}/>
+          {tempHintText.length>0?<Button onClick={()=>this.props.sendInvite(this.state.email)} disabled style={inviteButtonStyle}>Send Invite</Button>
+            :<Button onClick={()=>this.props.sendInvite(this.state.email)} style={inviteButtonStyle}>Send Invite</Button>}
+          <FormText>{tempHintText}</FormText>
+        </FormGroup>
+      )
+      return tempReturn;
+    }
+    return null;
+  }
+
   render(){
     if(this.props.group==null||this.props.group.success==false){
       return(
@@ -110,6 +134,7 @@ class MyGroup extends Component{
               className='calendar-my-group'
               onClickDay={(a)=>this.chooseDay(a)}
             />
+            {this.invitePeople()}
           </Col>
         </Row>
       </div>

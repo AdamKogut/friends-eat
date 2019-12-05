@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES, GET_MY_GROUP, CALENDAR_DAY, CALENDAR_INFO } from './Types';
+import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES, GET_MY_GROUP, CALENDAR_DAY, CALENDAR_INFO, OPEN_DRAWER } from './Types';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import History from '../../History';
 import { deleteAccountStyle } from '../../Components/CSS/PreferencesStyle';
@@ -374,4 +374,81 @@ export const changeAttending=(day, val)=>async dispatch=>{
       dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
     }
   })
+}
+
+export const sendInvite=(email)=>async dispatch=>{
+  axios.post('/api/invite',{email}).then(response=>{
+    if(response.data.success=='accountNotFound'){
+      let tempModalInfo={};
+      tempModalInfo.title=`Invite to Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>The user you are trying to invite does not currently have an account</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else if(response.data.success==false){
+      let tempModalInfo={};
+      tempModalInfo.title=`Invite to Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else if(response.data.success=='hasGroup'){
+      let tempModalInfo={};
+      tempModalInfo.title=`Invite to Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>The user you are trying to invite is already in a group</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`Invite to Group`;
+      tempModalInfo.body=(
+        <div>
+          <p>Success</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+    console.log(response.data)
+  })
+}
+
+export const acceptInvite=(obj)=>async dispatch=>{
+  axios.post('/api/groups/join/invite',obj).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`Accept Invite`;
+      tempModalInfo.body=(
+        <div>
+          <p>Successfully accepted the group invite</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else if(response.data.success==false){
+      let tempModalInfo={};
+      tempModalInfo.title=`Accept Invite`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed to accept invite, please try again later</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const openDrawer=(val)=>async dispatch=>{
+  dispatch({type:OPEN_DRAWER,payload:val})
 }
