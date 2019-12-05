@@ -7,15 +7,19 @@ const firebaseApp=keys.firebaseApp;
 router.get('/', function(req, res) {
   let feedbackRef= firebaseApp.database().ref(`/Feedback`);
   feedbackRef.once('value',(snapshot)=>{
-    let key = Object.keys(snapshot.val());
-    let feedbacks=[];
-    for(let i in snapshot.val()){
-      if(i=='temp')
-        continue;
-      feedbacks.push(snapshot.val()[i]);
+    if(snapshot.val()==null){
+      res.send({success:false});
+    } else {
+      let key = Object.keys(snapshot.val());
+      let feedbacks=[];
+      for(let i in snapshot.val()){
+        if(i=='temp')
+          continue;
+        feedbacks.push(snapshot.val()[i]);
+      }
+      shuffle(feedbacks);
+      res.send(feedbacks)
     }
-    shuffle(feedbacks);
-    res.send(feedbacks)
   })
 });
 
