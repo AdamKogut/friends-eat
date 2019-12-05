@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var whitelist = ['http://localhost:3000', 'https://young-falls-06057.herokuapp.com/', undefined]
+var whitelist = ['http://localhost:3000', 'https://friends-eat.herokuapp.com/', undefined]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {

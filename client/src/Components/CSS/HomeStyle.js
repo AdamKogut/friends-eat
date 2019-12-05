@@ -40,8 +40,8 @@ export const missionTitle={
   backgroundColor:colors.darkColor,
   height:'60px',
   border: '2px solid black',
-  width:'40vw',
-  minWidth:'600px',
+  boxSizing:'border-box',
+  width:'80%',
   margin:'0 auto',
   marginTop:'-150px',
   fontSize:'40px'
@@ -51,8 +51,8 @@ export const missionBody={
   textAlign:'center',
   backgroundColor:colors.backgroundColorLight,
   border: '2px solid black',
-  width:'40vw',
-  minWidth:'600px',
+  boxSizing:'border-box',
+  width:'80%',
   margin:'0 auto',
   padding:'5px',
   marginBottom:'10px'
