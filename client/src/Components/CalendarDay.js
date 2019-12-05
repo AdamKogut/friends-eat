@@ -124,7 +124,7 @@ class CalendarDay extends Component{
   }
 
   recipeInformation=()=>{
-    if(this.state.info==null||this.state.info.id==this.props.auth.id){
+    if(this.state.info==null||this.state.info=={}||this.state.info.id==this.props.auth.id){
       return null;
     }
     let tempReturn=[];

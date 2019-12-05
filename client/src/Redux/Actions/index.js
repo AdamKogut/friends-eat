@@ -45,7 +45,7 @@ export const openModal = (isOpen, comp) => async dispatch =>{
 }
 
 export const getReports=()=>async dispatch =>{
-  axios.get('/api/auth/reports').then(response=>{
+  axios.get('/api/auth/reports',{withCredentials: true}).then(response=>{
     if(response.data.nums>3){
       let tempModalInfo={};
       tempModalInfo.title="Account Removed"
@@ -78,7 +78,7 @@ export const getGroups=()=> async dispatch=>{
 }
 
 export const getPreferences=()=>async dispatch=>{
-  axios.get('/api/preferences').then(response=>{
+  axios.get('/api/preferences',{withCredentials: true}).then(response=>{
     dispatch({type:GET_PREFERENCES, payload:response.data});
   })
 }
@@ -90,7 +90,7 @@ export const submitPreferences=(obj)=>async dispatch=>{
   tempObj.diet=obj.diet;
   tempObj.nickName=obj.name;
   tempObj.paymentSystems=obj.payment;
-  axios.post('/api/preferences',tempObj).then(response=>{
+  axios.post('/api/preferences',tempObj,{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title='Save Preferences';
@@ -130,13 +130,13 @@ export const deleteAccount=()=>async dispatch=>{
 }
 
 const exportDeleteAccount=()=>{
-  axios.delete('/api/preferences').then(response=>{
+  axios.delete('/api/preferences',{withCredentials: true}).then(response=>{
     window.location.href='/api/auth/logout';
   })
 }
 
 export const joinGroup=(group)=> async dispatch=> {
-  axios.post('/api/groups/join',{groupName:group}).then(response=>{
+  axios.post('/api/groups/join',{groupName:group},{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title='Request to join';
@@ -210,13 +210,13 @@ export const createGroup=(info)=>async dispatch =>{
 }
 
 export const getMyGroup=()=> async dispatch =>{
-  axios.get('/api/groups/mine').then(response=>{
+  axios.get('/api/groups/mine',{withCredentials: true}).then(response=>{
     dispatch({type:GET_MY_GROUP, payload:response.data});
   })
 }
 
 export const changeUserLevel=(action, targetUid)=> async dispatch=>{
-  axios.post(`/api/groups/${action}`,{targetUid}).then(response=>{
+  axios.post(`/api/groups/${action}`,{targetUid},{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title=`${action.substr(0,1).toUpperCase()}${action.substr(1,action.length)} User`;
@@ -242,7 +242,7 @@ export const changeUserLevel=(action, targetUid)=> async dispatch=>{
 }
 
 export const deleteGroup=()=>async dispatch=>{
-  axios.delete(`/api/groups/`,null).then(response=>{
+  axios.delete(`/api/groups/`,null,{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title=`Delete Group`;
@@ -268,7 +268,7 @@ export const deleteGroup=()=>async dispatch=>{
 }
 
 export const reportPerson=(target)=>async dispatch=>{
-  axios.post('/api/auth/reports',{target}).then(response=>{
+  axios.post('/api/auth/reports',{target},{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title=`Report Person`;
@@ -298,7 +298,7 @@ export const selectDay=(day)=>async dispatch=>{
 }
 
 export const getDayInfo=(day)=>async dispatch=>{
-  axios.post('/api/calendar',{date:day}).then(response=>{
+  axios.post('/api/calendar',{date:day},{withCredentials: true}).then(response=>{
     let temp={};
     if(response.data.success==true||response.data.success==false){
       temp.AttendingUsers=[];
@@ -319,7 +319,7 @@ export const saveCalendarDay=(info,id)=>async dispatch=>{
   tempInfo.info=info.info;
   tempInfo.info.id=id
   tempInfo.day=info.day;
-  axios.post('/api/calendar/save',tempInfo).then(response=>{
+  axios.post('/api/calendar/save',tempInfo,{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title=`Save Day`;
@@ -345,7 +345,7 @@ export const saveCalendarDay=(info,id)=>async dispatch=>{
 }
 
 export const savePaid=(id, val, day)=>async dispatch=>{
-  axios.post('/api/calendar/saveCheckbox',{id,val,day}).then(response=>{
+  axios.post('/api/calendar/saveCheckbox',{id,val,day},{withCredentials: true}).then(response=>{
     if(response.data.success==false){
       let tempModalInfo={};
       tempModalInfo.title=`Change Paid`;
@@ -361,7 +361,7 @@ export const savePaid=(id, val, day)=>async dispatch=>{
 }
 
 export const changeAttending=(day, val)=>async dispatch=>{
-  axios.post('/api/calendar/saveAttending',{day,val}).then(response=>{
+  axios.post('/api/calendar/saveAttending',{day,val},{withCredentials: true}).then(response=>{
     if(response.data.success==false){
       let tempModalInfo={};
       tempModalInfo.title=`Change Attending`;
@@ -377,7 +377,7 @@ export const changeAttending=(day, val)=>async dispatch=>{
 }
 
 export const sendInvite=(email)=>async dispatch=>{
-  axios.post('/api/invite',{email}).then(response=>{
+  axios.post('/api/invite',{email},{withCredentials: true}).then(response=>{
     if(response.data.success=='accountNotFound'){
       let tempModalInfo={};
       tempModalInfo.title=`Invite to Group`;
@@ -424,7 +424,7 @@ export const sendInvite=(email)=>async dispatch=>{
 }
 
 export const acceptInvite=(obj)=>async dispatch=>{
-  axios.post('/api/groups/join/invite',obj).then(response=>{
+  axios.post('/api/groups/join/invite',obj,{withCredentials: true}).then(response=>{
     if(response.data.success==true){
       let tempModalInfo={};
       tempModalInfo.title=`Accept Invite`;
