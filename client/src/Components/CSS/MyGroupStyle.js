@@ -83,3 +83,9 @@ export const allowButton={
   marginRight:'10px',
   backgroundColor:colors.backgroundColorLight
 }
+
+export const calendarStyle={
+  boxSizing:'border-box',
+  width:'80%',
+  margin:'0 auto'
+}

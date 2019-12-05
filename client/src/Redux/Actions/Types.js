@@ -6,3 +6,5 @@ export const GET_GROUPS='get_groups';
 export const GET_REPORTS='get_reports';
 export const GET_PREFERENCES='get_preferences';
 export const GET_MY_GROUP='get_my_group';
+export const CALENDAR_DAY='calendar_day';
+export const CALENDAR_INFO='calendar_info';

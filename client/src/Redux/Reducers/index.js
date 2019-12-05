@@ -5,6 +5,7 @@ import ModalReducer from './ModalReducer';
 import HistoryReducer from './HistoryReducer';
 import GroupReducer from './GroupReducer';
 import PreferencesReducer from './PreferencesReducer';
+import CalendarReducer from './CalendarReducer';
 
 export default combineReducers({
   auth:AuthReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   history:HistoryReducer,
   groups:GroupReducer,
   preferences:PreferencesReducer,
+  calendar:CalendarReducer,
 });

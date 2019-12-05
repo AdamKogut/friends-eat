@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../Redux/Actions';
 import {Row, Col, Button, Card, CardBody, CardHeader} from 'reactstrap';
-import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton } from './CSS/MyGroupStyle';
+import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton, calendarStyle } from './CSS/MyGroupStyle';
+import Calendar from 'react-calendar';
+import './CSS/CalendarStyle.css';
 
 
 class MyGroup extends Component{
@@ -61,6 +63,12 @@ class MyGroup extends Component{
     return r;
   }
 
+  chooseDay=(day)=>{
+    this.props.selectDay(day);
+    this.props.getDayInfo(day);
+    this.props.history.push('/calendar');
+  }
+
   render(){
     if(this.props.group==null||this.props.group.success==false){
       return(
@@ -94,6 +102,14 @@ class MyGroup extends Component{
             {this.getPossibleGroupMates()}
           </Col>
           <Col xs={12} sm={6}>
+            <h1 style={groupTitle}>Calendar</h1>
+            <hr style={horizontalLine} />
+            <Calendar
+              minDetail='month'
+              maxDetail='month'
+              className='calendar-my-group'
+              onClickDay={(a)=>this.chooseDay(a)}
+            />
           </Col>
         </Row>
       </div>
@@ -101,8 +117,8 @@ class MyGroup extends Component{
   }
 }
 
-function mapStateToProps({auth, groups }){
-  return {auth, group:groups.myGroup};
+function mapStateToProps({auth, groups, history }){
+  return {auth, group:groups.myGroup, history};
 }
 
 export default connect(mapStateToProps, actions)(MyGroup);

@@ -11,6 +11,7 @@ import Home from './Components/Home';
 import Groups from './Components/Groups';
 import Preferences from './Components/Preferences';
 import MyGroup from './Components/MyGroup';
+import CalendarDay from './Components/CalendarDay';
 
 class App extends Component{
   constructor(props){
@@ -31,7 +32,7 @@ class App extends Component{
     return (
         <Container style={appEntireArea}>
           <Row>
-            <Col xs={0} sm={3} style={sidebarArea}>
+            <Col xs='none' sm={3} style={sidebarArea}>
               <Sidebar />
             </Col>
             <Col sm={9} xs={12}>
@@ -44,6 +45,7 @@ class App extends Component{
                   <Route path='/groups' render={()=><Groups />}/>
                   <Route path='/preferences' render={()=><Preferences />}/>
                   <Route path='/myGroup' render={()=><MyGroup />}/>
+                  <Route path='/calendar' render={()=><CalendarDay/>}/>
                 </Switch>
               </Row>
             </Col>

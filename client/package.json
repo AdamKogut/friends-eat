@@ -8,6 +8,7 @@
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
     "react": "^16.12.0",
+    "react-calendar": "^2.19.2",
     "react-chips": "^0.8.0",
     "react-dom": "^16.12.0",
     "react-icons": "^3.8.0",

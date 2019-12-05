@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES, GET_MY_GROUP } from './Types';
+import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUPS, GET_PREFERENCES, GET_MY_GROUP, CALENDAR_DAY, CALENDAR_INFO } from './Types';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import History from '../../History';
 import { deleteAccountStyle } from '../../Components/CSS/PreferencesStyle';
@@ -282,6 +282,89 @@ export const reportPerson=(target)=>async dispatch=>{
     } else {
       let tempModalInfo={};
       tempModalInfo.title=`Report Person`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const selectDay=(day)=>async dispatch=>{
+  dispatch({type:CALENDAR_DAY, payload:day});
+}
+
+export const getDayInfo=(day)=>async dispatch=>{
+  axios.post('/api/calendar',{date:day}).then(response=>{
+    let temp={};
+    if(response.data.success==true||response.data.success==false){
+      temp.AttendingUsers=[];
+      temp.Name='';
+      temp.RecipeName='';
+      temp.id='';
+      temp.Ingredients='';
+      temp.Cost='';
+    } else {
+      temp=response.data;
+    }
+    dispatch({type:CALENDAR_INFO, payload:temp});
+  })
+}
+
+export const saveCalendarDay=(info,id)=>async dispatch=>{
+  let tempInfo={};
+  tempInfo.info=info.info;
+  tempInfo.info.id=id
+  tempInfo.day=info.day;
+  axios.post('/api/calendar/save',tempInfo).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title=`Save Day`;
+      tempModalInfo.body=(
+        <div>
+          <p>Success</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title=`Save Day`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const savePaid=(id, val, day)=>async dispatch=>{
+  axios.post('/api/calendar/saveCheckbox',{id,val,day}).then(response=>{
+    if(response.data.success==false){
+      let tempModalInfo={};
+      tempModalInfo.title=`Change Paid`;
+      tempModalInfo.body=(
+        <div>
+          <p>Failed</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const changeAttending=(day, val)=>async dispatch=>{
+  axios.post('/api/calendar/saveAttending',{day,val}).then(response=>{
+    if(response.data.success==false){
+      let tempModalInfo={};
+      tempModalInfo.title=`Change Attending`;
       tempModalInfo.body=(
         <div>
           <p>Failed</p>

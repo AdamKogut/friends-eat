@@ -3,6 +3,7 @@ var router = express.Router();
 var auth=require('./auth');
 var feedback=require('./feedback');
 var groups=require('./groups');
+var calendar=require('./calendar');
 var preferences=require('./preferences');
 const keys=require('../SecretKeys/keys');
 const firebaseApp=keys.firebaseApp;
@@ -10,7 +11,8 @@ const firebaseApp=keys.firebaseApp;
 router.use('/auth',auth);
 router.use('/feedback', feedback);
 router.use('/groups', groups);
-router.use('/preferences',preferences)
+router.use('/preferences',preferences);
+router.use('/calendar',calendar)
 
 router.post('/removeAccount',(req,res)=>{
   let userRef= firebaseApp.database().ref(`/Users/${req.user}`);

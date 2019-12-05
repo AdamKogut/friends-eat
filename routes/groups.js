@@ -26,7 +26,6 @@ router.post('/join',(req,res)=>{
   let userRef=firebaseApp.database().ref(`/Users/${req.user}`);
   userRef.once('value', snapshot=>{
     if(snapshot.val()!=null){
-      console.log(snapshot.val())
       groupRef.set({
         Name:snapshot.val().Name,
         PaymentSystems:snapshot.val().PaymentSystems,
@@ -41,7 +40,6 @@ router.post('/join',(req,res)=>{
 })
 
 router.post('/',(req,res)=>{
-  console.log(req.body);
   let userRef=firebaseApp.database().ref(`/Users/${req.user}`);
   userRef.once('value', snapshot=>{
     if(snapshot.val()!=null&&(snapshot.val().Group==null||snapshot.val().Group=='')){
@@ -68,12 +66,10 @@ router.post('/',(req,res)=>{
         }).then(()=>res.send({success:true}))
       })
     } else {
-      console.log(snapshot.val())
-      console.log(snapshot.val().Group)
       res.send({success:false});
       return;
     }
-  }).catch((a)=>{console.log(a);res.send({success:false})})
+  }).catch(()=>{res.send({success:false})})
 })
 
 router.get('/mine',(req,res)=>{
@@ -143,10 +139,8 @@ router.post('/accept',(req,res)=>{
 router.delete('/',(req,res)=>{
   let userRef=firebaseApp.database().ref(`/Users/${req.user}/Group`);
   userRef.once('value', snapshot=>{
-    console.log(snapshot.val())
     let groupRef=firebaseApp.database().ref(`/Groups/${snapshot.val()}`);
     groupRef.once('value',groupSnap=>{
-      console.log(groupSnap.val())
       for(let i in groupSnap.val().Users){
         let targetUserRef=firebaseApp.database().ref(`/Users/${i}/Group`);
         targetUserRef.set({});
