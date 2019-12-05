@@ -25,9 +25,7 @@ router.post('/join',(req,res)=>{
   let groupRef=firebaseApp.database().ref(`/Groups/${req.body.groupName}/WaitingUsers/${req.user}`);
   let userRef=firebaseApp.database().ref(`/Users/${req.user}`);
   userRef.once('value', snapshot=>{
-    console.log(snapshot.val())
     if(snapshot.val()!=null){
-      console.log(snapshot.val())
       groupRef.set({
         Name:snapshot.val().Name,
         PaymentSystems:snapshot.val().PaymentSystems,
@@ -38,6 +36,41 @@ router.post('/join',(req,res)=>{
       res.send({success:false});
     }
   })
+})
+
+router.post('/',(req,res)=>{
+  console.log(req.body);
+  let userRef=firebaseApp.database().ref(`/Users/${req.user}`);
+  userRef.once('value', snapshot=>{
+    if(snapshot.val()!=null&&(snapshot.val().Group==null||snapshot.val().Group=='')){
+      let user={};
+      user[req.user]={
+        Name:snapshot.val().Name,
+        PaymentSystems:snapshot.val().PaymentSystems
+      }
+      let date=Date.now();
+      let groupRef=firebaseApp.database().ref(`/Groups/${req.user+date}`);
+      groupRef.set({
+        Creator:req.user,
+        Location:req.body.location,
+        MaxUsers:req.body.MaxUsers,
+        Name:req.body.name,
+        Restrictions:req.body.restrictions,
+        Private:req.body.private,
+        Users:user
+      }).then(()=>{
+        userRef.set({
+          ...snapshot.val(),
+          Group:req.user+date
+        }).then(()=>res.send({success:true}))
+      })
+    } else {
+      console.log(snapshot.val())
+      console.log(snapshot.val().Group)
+      res.send({success:false});
+      return;
+    }
+  }).catch((a)=>{console.log(a);res.send({success:false})})
 })
 
 module.exports=router;

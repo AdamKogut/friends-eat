@@ -22,7 +22,8 @@ export const availableTitle = {
 export const createGroupButton={
   position:'absolute',
   top:'calc(2vh + 60px)',
-  right:'2vw'
+  right:'2vw',
+  backgroundColor:colors.backgroundColorLight
 }
 
 export const groupRow={

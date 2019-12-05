@@ -4,6 +4,7 @@ import { FETCH_USER, FETCH_FEEDBACK, OPEN_MODAL, HISTORY, GET_REPORTS, GET_GROUP
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 import History from '../../History';
 import { deleteAccountStyle } from '../../Components/CSS/PreferencesStyle';
+import CreateGroup from '../../Components/CreateGroup';
 
 export const fetchUser = () => async dispatch => {
   axios.get('/api/auth/current_user',{withCredentials: true}).then((response)=>{
@@ -152,6 +153,54 @@ export const joinGroup=(group)=> async dispatch=> {
       tempModalInfo.body=(
         <div>
           <p>Failed to request to join</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    }
+  })
+}
+
+export const openCreateGroup=()=>async dispatch=>{
+  let tempModalInfo={};
+  tempModalInfo.title='Create Group';
+  tempModalInfo.body=(<CreateGroup />)
+  dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+}
+
+export const createGroup=(info)=>async dispatch =>{
+  let tempInfo={};
+  let modify=0;
+  tempInfo.restrictions=[];
+  if(info.diet.value!='select'){
+    tempInfo.restrictions[0]=info.diet.value;
+    modify++;
+  }
+  for(let i in info.allergy){
+    tempInfo.restrictions[parseInt(i)+parseInt(modify)]=info.allergy[i];
+  }
+  tempInfo.location=info.location[0];
+  tempInfo.name=info.name;
+  tempInfo.MaxUsers=info.max.value;
+  tempInfo.private=info.private;
+  
+  axios.post('/api/groups',tempInfo).then(response=>{
+    if(response.data.success==true){
+      let tempModalInfo={};
+      tempModalInfo.title='Create Group';
+      tempModalInfo.body=(
+        <div>
+          <p>Succesfully created group</p>
+          <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
+        </div>
+      )
+      dispatch({type:OPEN_MODAL, payload:{isOpen:true, ...tempModalInfo}});
+    } else {
+      let tempModalInfo={};
+      tempModalInfo.title='Create Group';
+      tempModalInfo.body=(
+        <div>
+          <p>Failed to create group</p>
           <Button onClick={()=>dispatch({type:OPEN_MODAL, payload:{isOpen:false}})}>Ok</Button>
         </div>
       )

@@ -79,6 +79,7 @@ class Preferences extends Component{
                 value={this.state.allergy}
                 onChange={(ch)=>this.setState({allergy:ch})}
                 suggestions={allergies}
+                fromSuggestionsOnly
                 id='allergies'
               />
             </FormGroup>
@@ -96,6 +97,7 @@ class Preferences extends Component{
                 value={this.state.location}
                 onChange={(ch)=>this.setState({location:ch})}
                 suggestions={cities}
+                fromSuggestionsOnly
               />
             </FormGroup>
             <FormGroup>

@@ -105,7 +105,8 @@ class Groups extends Component {
       let currGroup = source[i];
       if(Object.keys(currGroup.Users).includes(this.props.auth.id)||
         (currGroup.WaitingUsers!=null && Object.keys(currGroup.WaitingUsers).includes(this.props.auth.id))||
-        (currGroup.RejectedUsers!=null && Object.keys(currGroup.RejectedUsers).includes(this.props.auth.id))){
+        (currGroup.RejectedUsers!=null && Object.keys(currGroup.RejectedUsers).includes(this.props.auth.id))||
+        currGroup.Private){
         continue;
       }
       let tempRestrictions='';
@@ -152,7 +153,7 @@ class Groups extends Component {
       <div style={mainContainer}>
         <Row style={fixRow}>
           <h1 style={availableTitle}>Available Groups</h1>
-          <Button style={createGroupButton}>Create Group</Button>
+          <Button style={createGroupButton} onClick={this.props.openCreateGroup}>Create Group</Button>
         </Row>
         <Row style={groupRow}>
           <Col xs={7}>
@@ -165,6 +166,7 @@ class Groups extends Component {
               value={this.state.filter.chips}
               onChange={this.changeChips}
               suggestions={allergies}
+              fromSuggestionsOnly
             />
             <br />
             <h6 style={filterTitle}>Diet</h6>
@@ -179,6 +181,7 @@ class Groups extends Component {
               value={this.state.filter.location}
               onChange={this.changeLocation}
               suggestions={cities}
+              fromSuggestionsOnly
             />
           </Col>
         </Row>
