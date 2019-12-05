@@ -6,7 +6,7 @@ var groups=require('./groups');
 var calendar=require('./calendar');
 var preferences=require('./preferences');
 var axios=require('axios')
-const keys=require('../SecretKeys/keys');
+const keys=require('../SecretKeys/Keys');
 const firebaseApp=keys.firebaseApp;
 
 router.use('/auth',auth);

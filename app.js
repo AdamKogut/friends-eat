@@ -8,7 +8,7 @@ const passport = require('passport');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
-const keys = require('./SecretKeys/keys');
+const keys = require('./SecretKeys/Keys');
 
 var app = express();
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const keys=require('../SecretKeys/keys');
+const keys=require('../SecretKeys/Keys');
 const firebaseApp=keys.firebaseApp;
 
 var router=express.Router();

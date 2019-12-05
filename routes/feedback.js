@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const keys=require('../SecretKeys/keys');
+const keys=require('../SecretKeys/Keys');
 const firebaseApp=keys.firebaseApp;
 
 /* GET users listing. */
