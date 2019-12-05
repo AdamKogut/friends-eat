@@ -22,7 +22,7 @@ class Feedback extends Component{
   }
 
   componentDidMount=()=>{
-    if(this.props.feedback==null){
+    if(this.props.feedback==null||this.props.feedback.success==false){
       return;
     }
     let tempList=[];
