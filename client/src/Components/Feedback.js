@@ -22,20 +22,22 @@ class Feedback extends Component{
   }
 
   componentDidMount=()=>{
-    if(this.props.feedback==null||this.props.feedback.success==false){
+    if(this.props.feedback==null){
       return;
     }
     let tempList=[];
-    for(let i in this.props.feedback){
-      tempList.push(
-        <Card key={i} style={cardStyle}>
-          <CardBody>
-            <CardTitle>{this.props.feedback[i].Title}</CardTitle>
-            <CardSubtitle>{this.props.feedback[i].Name.givenName}</CardSubtitle>
-            <CardText>{this.props.feedback[i].Body.substring(0,100)}...</CardText>
-          </CardBody>
-        </Card>
-      )
+    if(!this.props.feedback.success==false){
+      for(let i in this.props.feedback){
+        tempList.push(
+          <Card key={i} style={cardStyle}>
+            <CardBody>
+              <CardTitle>{this.props.feedback[i].Title}</CardTitle>
+              <CardSubtitle>{this.props.feedback[i].Name.givenName}</CardSubtitle>
+              <CardText>{this.props.feedback[i].Body.substring(0,100)}...</CardText>
+            </CardBody>
+          </Card>
+        )
+      }
     }
     if(this.isAuthed()){
       tempList.push(

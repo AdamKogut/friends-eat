@@ -74,6 +74,11 @@ export const reportButtonStyle={
   backgroundColor:colors.backgroundColorLight
 }
 
+export const reportButtonStyle2={
+  ...reportButtonStyle,
+  clear:'both'
+}
+
 export const cardHeaderStyle={
   backgroundColor:colors.sidebarColor,
   color:'white'

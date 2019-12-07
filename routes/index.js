@@ -66,7 +66,7 @@ router.post('/invite',(req,res)=>{
               "name": `${groupSnap.val().Name.nickName} ${groupSnap.val().Name.familyName}`,
               "restrictions": tempRestrictions,
               "location": gSnap.val().Location,
-              "site": `https://localhost:3000/invite?group=${groupSnap.val().Group}&user=${i}`
+              "site": `https://bottomsup.me/invite?group=${groupSnap.val().Group}&user=${i}`
             }
             
             var service_id = "friendseat";

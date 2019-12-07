@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../Redux/Actions';
 import {Row, Col, Button, Card, CardBody, CardHeader, FormGroup, Input, FormText, Label} from 'reactstrap';
-import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton, calendarStyle, labelStyle, inviteButtonStyle } from './CSS/MyGroupStyle';
+import { mainContainer, fixRow, groupTitle, horizontalLine, leaveButton, groupName, venmoPayment, paypalPayment, cardStyles, paymentStyle, reportButtonStyle2, reportButtonStyle, cardHeaderStyle, myGroupRow, allowButton, calendarStyle, labelStyle, inviteButtonStyle } from './CSS/MyGroupStyle';
 import Calendar from 'react-calendar';
 import './CSS/CalendarStyle.css';
 
@@ -31,7 +31,7 @@ class MyGroup extends Component{
             {(this.props.auth.id==this.props.group.Creator&&i!=this.props.auth.id)?
               <div>
                 <Button style={reportButtonStyle} onClick={()=>this.props.changeUserLevel('remove',i).then(this.props.getMyGroup)}>Remove</Button>
-                <Button style={reportButtonStyle} onClick={()=>this.props.reportPerson(i)}>Report</Button>
+                <Button style={reportButtonStyle2} onClick={()=>this.props.reportPerson(i)}>Report</Button>
               </div>
             :this.props.auth.id!=i?<Button onClick={()=>this.props.reportPerson(i)} style={reportButtonStyle}>Report</Button>:null}
           </CardBody>
