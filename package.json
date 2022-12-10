@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "emailjs-com": "^2.4.1",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "firebase": "^7.5.0",
     "firebase-admin": "^8.8.0",
     "http-errors": "~1.6.3",
